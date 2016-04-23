@@ -58,4 +58,20 @@ skillService.intent('cakeBakeIntent', {
   }
 );
 
+skillService.intent('saveCakeIntent', {
+  'utterances': ['{save} {a|the|my} cake']
+  },
+  function(request, response) {
+
+  }
+);
+
+skillService.intent('loadCakeIntent', {
+  'utterances': ['{load|resume} {a|the} {|last} cake']
+  },
+  function(request, response) {
+
+  }
+);
+
 module.exports = skillService;
