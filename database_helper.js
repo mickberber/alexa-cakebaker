@@ -2,7 +2,15 @@
 module.change_code = 1;
 var _ = require('lodash');
 var CAKEBAKER_DATA_TABLE_NAME = 'cakeBakerData';
-var dynasty = require('dynasty')({});
+//uncomment for deployed version
+//var dynasty = require('dynasty')({});
+//below is for local development
+var localUrl = require('dynasty')({});
+var localCredentials = {
+  region: 'us-1-east',
+  accessIdKey: 'fake',
+  secretAccessKey: 'fake'
+}
 
 var localDynasty = require('dynasty')(localCredentials, localUrl);
 var dynasty = localDynasty;

@@ -8,6 +8,10 @@ var CakeBakerHelper = require('./cakebaker_helper');
 var DatabaseHelper = require('./database_helper');
 var databaseHelper = new DatabaseHelper();
 
+skillService.pre(request, response, type) {
+  databaseHelper.createCakeBakerTable();
+}
+
 var getCakeBakerHelper = function(cakeBakerHelperData) {
   if (cakeBakerHelperData === undefined) {
     cakeBakerHelperData = {};
