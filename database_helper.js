@@ -4,14 +4,12 @@ var _ = require('lodash');
 var CAKEBAKER_DATA_TABLE_NAME = 'cakeBakerData';
 //uncomment for deployed version
 //var dynasty = require('dynasty')({});
-//below is for local development
-var localUrl = require('dynasty')({});
+var localUrl = 'http://localhost:4000';
 var localCredentials = {
-  region: 'us-1-east',
-  accessIdKey: 'fake',
+  region: 'us-east-1',
+  accessKeyId: 'fake',
   secretAccessKey: 'fake'
-}
-
+};
 var localDynasty = require('dynasty')(localCredentials, localUrl);
 var dynasty = localDynasty;
 
