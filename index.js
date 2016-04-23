@@ -8,6 +8,10 @@ var CakeBakerHelper = require('./cakebaker_helper');
 var DatabaseHelper = require('./database_helper');
 var databaseHelper = new DatabaseHelper();
 
+skillService.pre = function(request, response, type) {
+  databaseHelper.createCakeBakerTable();
+}
+
 var getCakeBakerHelper = function(cakeBakerHelperData) {
   if (cakeBakerHelperData === undefined) {
     cakeBakerHelperData = {};
@@ -57,5 +61,38 @@ skillService.intent('cakeBakeIntent', {
     cakeBakerIntentFunction(cakeBakerHelper, request, response);
   }
 );
+
+skillService.intent('saveCakeIntent', {
+  'utterances': ['{save} {a|the|my} cake']
+  },
+  function(request, response) {
+    var cakeBakerHelper = getCakeBakerHelperFromRequest(request);
+    sakeCake(cakeBakerHelper, request);
+    response.say('Your cake progress has been saved!');
+    response.shouldEndSession(true).send();
+    return false;
+  }
+);
+
+skillService.intent('loadCakeIntent', {
+  'utterances': ['{load|resume} {a|the} {|last} cake']
+  },
+  function(request, response) {
+    var cakeBakerHelper = getCakeBakerHelperFromRequest(request);
+    cakseBakerHelper.currentStep++;
+    saveCake(cakeBakerHelper, request);
+    cakeBakerIntentFunction(cakeBakerHelper, request, response);
+  }
+);
+
+var saveCake = function(cakeBakerHelper, request) {
+  var userId = request.userId;
+  databaseHelper.storeCakeBakerData(userId, JSON.Stringify(cakeBakerHelper))
+    .then(function(result) {
+      return result;
+    }).catch(function(error) {
+      console.log(error);
+    })
+}
 
 module.exports = skillService;
