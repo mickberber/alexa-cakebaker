@@ -78,12 +78,27 @@ skillService.intent('loadCakeIntent', {
   'utterances': ['{load|resume} {a|the} {|last} cake']
   },
   function(request, response) {
+    var userId = request.userId;
+    databaseHelper.readCakeBakerData(userId).then(function(result) {
+      return(result === undefined ? {} : JSON.parse(result.data))
+    }).then(function(loadCakeBakerData) {
+      var cakeBakerHelper= new CakeBakerHelper(loadedCakeBakerData);
+      return cakeBakerIntentFunction(cakeBakerHelper, request, response);
+    });
+    return false;
+  }
+);
+
+skillService.intent('advanceStepIntent', {
+  'utterances': ['{advance|next|continue}']
+  },
+  function(request, response) {
     var cakeBakerHelper = getCakeBakerHelperFromRequest(request);
     cakseBakerHelper.currentStep++;
     saveCake(cakeBakerHelper, request);
     cakeBakerIntentFunction(cakeBakerHelper, request, response);
   }
-);
+})
 
 var saveCake = function(cakeBakerHelper, request) {
   var userId = request.userId;
